@@ -5,7 +5,7 @@
 // Package plotutil contains a small number of utilites for creating plots.
 //
 // This package is under active development so portions of it may change.
-package plotutil // import "gonum.org/v1/plot/plotutil"
+package plotutil // import "github.com/gshk/plot/plotutil"
 
 import (
 	"image/color"

@@ -3,7 +3,7 @@
 // license that can be found in the LICENSE file.
 
 // Package recorder provides support for vector graphics serialization.
-package recorder // import "gonum.org/v1/plot/vg/recorder"
+package recorder // import "github.com/gshk/plot/vg/recorder"
 
 import (
 	"bytes"
