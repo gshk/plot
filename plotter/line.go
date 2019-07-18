@@ -6,6 +6,7 @@ package plotter
 
 import (
 	"image/color"
+	"math"
 
 	"github.com/gshk/plot"
 	"github.com/gshk/plot/vg"
@@ -89,6 +90,19 @@ func (pts *Line) Plot(c draw.Canvas, plt *plot.Plot) {
 			prev := fillPoly[0]
 			pa.Move(prev)
 			for _, pt := range fillPoly[1:] {
+				if (math.IsNaN(float64(pt.X)) || math.IsNaN(float64(pt.Y))) &&
+					!(math.IsNaN(float64(prev.X)) || math.IsNaN(float64(prev.Y))) {
+					pa.Line(vg.Point{X: prev.X, Y: minY})
+					pa.Close()
+					prev = pt
+					continue
+				}
+				if math.IsNaN(float64(prev.X)) || math.IsNaN(float64(prev.Y)) {
+					pa.Move(vg.Point{X: pt.X, Y: minY})
+					pa.Line(pt)
+					prev = pt
+					continue
+				}
 				switch pts.StepStyle {
 				case NoStep:
 					pa.Line(pt)
@@ -121,6 +135,11 @@ func (pts *Line) Plot(c draw.Canvas, plt *plot.Plot) {
 			prev := l[0]
 			p.Move(prev)
 			for _, pt := range l[1:] {
+				if math.IsNaN(float64(pt.X)) || math.IsNaN(float64(pt.Y)) || math.IsNaN(float64(prev.X)) || math.IsNaN(float64(prev.Y)) {
+					p.Move(pt)
+					prev = pt
+					continue
+				}
 				switch pts.StepStyle {
 				case PreStep:
 					p.Line(vg.Point{X: prev.X, Y: pt.Y})

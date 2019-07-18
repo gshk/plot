@@ -132,10 +132,10 @@ func makeAxis(orientation bool) (Axis, error) {
 // sanitizeRange ensures that the range of the
 // axis makes sense.
 func (a *Axis) sanitizeRange() {
-	if math.IsInf(a.Min, 0) {
+	if math.IsInf(a.Min, 0) || math.IsNaN(a.Min) {
 		a.Min = 0
 	}
-	if math.IsInf(a.Max, 0) {
+	if math.IsInf(a.Max, 0) || math.IsNaN(a.Max) {
 		a.Max = 0
 	}
 	if a.Min > a.Max {

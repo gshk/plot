@@ -12,7 +12,7 @@
 // New* functions return an error if the data contains Inf, NaN, or is
 // empty. Some of the New* functions return other plotter-specific errors
 // too.
-package plotter // import "gonum.org/v1/plot/plotter"
+package plotter // import "github.com/gshk/plot/plotter"
 
 import (
 	"errors"
@@ -57,8 +57,10 @@ func Range(vs Valuer) (min, max float64) {
 	max = math.Inf(-1)
 	for i := 0; i < vs.Len(); i++ {
 		v := vs.Value(i)
-		min = math.Min(min, v)
-		max = math.Max(max, v)
+		if !math.IsNaN(v) {
+			min = math.Min(min, v)
+			max = math.Max(max, v)
+		}
 	}
 	return
 }
@@ -68,7 +70,6 @@ type Values []float64
 
 var (
 	ErrInfinity = errors.New("Infinite data point")
-	ErrNaN      = errors.New("NaN data point")
 	ErrNoData   = errors.New("No data points")
 )
 
@@ -76,8 +77,6 @@ var (
 func CheckFloats(fs ...float64) error {
 	for _, f := range fs {
 		switch {
-		case math.IsNaN(f):
-			return ErrNaN
 		case math.IsInf(f, 0):
 			return ErrInfinity
 		}
