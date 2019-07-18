@@ -78,7 +78,9 @@ func (b *BarChart) BarHeight(i int) float64 {
 		return 0
 	}
 	if i >= 0 && i < len(b.Values) {
-		ht += b.Values[i]
+		if !math.IsNaN(b.Values[i]) {
+			ht += b.Values[i]
+		}
 	}
 	if b.stackedOn != nil {
 		ht += b.stackedOn.BarHeight(i)
@@ -103,6 +105,9 @@ func (b *BarChart) Plot(c draw.Canvas, plt *plot.Plot) {
 	}
 
 	for i, ht := range b.Values {
+		if math.IsNaN(ht) {
+			ht = 0
+		}
 		catVal := b.XMin + float64(i)
 		catMin := trCat(float64(catVal))
 		if !b.Horizontal {
@@ -161,6 +166,9 @@ func (b *BarChart) DataRange() (xmin, xmax, ymin, ymax float64) {
 	valMin := math.Inf(1)
 	valMax := math.Inf(-1)
 	for i, val := range b.Values {
+		if math.IsNaN(val) {
+			val = 0
+		}
 		valBot := b.stackedOn.BarHeight(i)
 		valTop := valBot + val
 		valMin = math.Min(valMin, math.Min(valBot, valTop))
