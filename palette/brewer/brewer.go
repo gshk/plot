@@ -23,7 +23,7 @@ import (
 	"fmt"
 	"image/color"
 
-	"gonum.org/v1/plot/palette"
+	"github.com/gshk/plot/palette"
 )
 
 // Color represents a Brewer Palette color.

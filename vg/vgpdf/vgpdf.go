@@ -22,8 +22,8 @@ import (
 
 	pdf "github.com/jung-kurt/gofpdf"
 
-	"gonum.org/v1/plot/vg"
-	"gonum.org/v1/plot/vg/fonts"
+	"github.com/gshk/plot/vg"
+	"github.com/gshk/plot/vg/fonts"
 )
 
 // DPI is the nominal resolution of drawing in PDF.

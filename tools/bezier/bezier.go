@@ -5,7 +5,7 @@
 // Package bezier implements 2D Bézier curve calculation.
 package bezier // import "gonum.org/v1/plot/tools/bezier"
 
-import "gonum.org/v1/plot/vg"
+import "github.com/gshk/plot/vg"
 
 type point struct {
 	Point, Control vg.Point

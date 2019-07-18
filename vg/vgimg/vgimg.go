@@ -19,7 +19,7 @@ import (
 	"github.com/fogleman/gg"
 	"golang.org/x/image/tiff"
 
-	"gonum.org/v1/plot/vg"
+	"github.com/gshk/plot/vg"
 )
 
 // Canvas implements the vg.Canvas interface,

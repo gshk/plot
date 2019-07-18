@@ -15,9 +15,9 @@ import (
 	"golang.org/x/exp/rand"
 
 	"gonum.org/v1/gonum/mat"
-	"gonum.org/v1/plot"
-	"gonum.org/v1/plot/palette"
-	"gonum.org/v1/plot/vg"
+	"github.com/gshk/plot"
+	"github.com/gshk/plot/palette"
+	"github.com/gshk/plot/vg"
 )
 
 var visualDebug = flag.Bool("visual", false, "output images for benchmarks and test data")

@@ -1,7 +1,7 @@
 sudo: false
 
 language: go
-go_import_path: gonum.org/v1/plot
+go_import_path: github.com/gshk/plot
 
 # Versions of go that are explicitly supported by gonum.
 go:

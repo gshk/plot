@@ -7,9 +7,9 @@ package plotutil_test
 import (
 	"golang.org/x/exp/rand"
 
-	"gonum.org/v1/plot"
-	"gonum.org/v1/plot/plotter"
-	"gonum.org/v1/plot/plotutil"
+	"github.com/gshk/plot"
+	"github.com/gshk/plot/plotter"
+	"github.com/gshk/plot/plotutil"
 )
 
 func ExampleErrorPoints() {

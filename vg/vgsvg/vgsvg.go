@@ -20,7 +20,7 @@ import (
 
 	svgo "github.com/ajstarks/svgo"
 
-	"gonum.org/v1/plot/vg"
+	"github.com/gshk/plot/vg"
 )
 
 // pr is the precision to use when outputting float64s.
