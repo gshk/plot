@@ -45,6 +45,9 @@ type BarChart struct {
 	// locations and distances.
 	Horizontal bool
 
+	// Interval declare the space between bars depend no x-axis values
+	Interval float64
+
 	// stackedOn is the bar chart upon which
 	// this bar chart is stacked.
 	stackedOn *BarChart
@@ -108,7 +111,7 @@ func (b *BarChart) Plot(c draw.Canvas, plt *plot.Plot) {
 		if math.IsNaN(ht) {
 			ht = 0
 		}
-		catVal := b.XMin + float64(i)
+		catVal := b.XMin + float64(i)*b.Interval
 		catMin := trCat(float64(catVal))
 		if !b.Horizontal {
 			if !c.ContainsX(catMin) {
