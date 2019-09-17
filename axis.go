@@ -5,9 +5,10 @@
 package plot
 
 import (
+	"fmt"
 	"image/color"
 	"math"
-	"strconv"
+	"strings"
 	"time"
 
 	"github.com/gshk/plot/vg"
@@ -370,19 +371,23 @@ func (a verticalAxis) GlyphBoxes(*Plot) []GlyphBox {
 
 // DefaultTicks is suitable for the Tick.Marker field of an Axis,
 // it returns a reasonable default set of tick marks.
-type DefaultTicks struct{}
+type DefaultTicks struct {
+	SuggestedTick int
+}
 
 var _ Ticker = DefaultTicks{}
 
 // Ticks returns Ticks in the specified range.
-func (DefaultTicks) Ticks(min, max float64) []Tick {
+func (d DefaultTicks) Ticks(min, max float64) []Tick {
 	if max <= min {
 		panic("illegal range")
 	}
 
-	const suggestedTicks = 3
+	if d.SuggestedTick == 0 {
+		d.SuggestedTick = 3
+	}
 
-	labels, step, q, mag := talbotLinHanrahan(min, max, suggestedTicks, withinData, nil, nil, nil)
+	labels, step, q, mag := talbotLinHanrahan(min, max, d.SuggestedTick, withinData, nil, nil, nil)
 	majorDelta := step * math.Pow10(mag)
 	if q == 0 {
 		// Simple fall back was chosen, so
@@ -392,11 +397,9 @@ func (DefaultTicks) Ticks(min, max float64) []Tick {
 
 	// Choose a reasonable, but ad
 	// hoc formatting for labels.
-	fc := byte('f')
 	var off int
 	if mag < -1 || 6 < mag {
 		off = 1
-		fc = 'g'
 	}
 	if math.Trunc(q) != q {
 		off += 2
@@ -404,7 +407,7 @@ func (DefaultTicks) Ticks(min, max float64) []Tick {
 	prec := minInt(6, maxInt(off, -mag))
 	var ticks []Tick
 	for _, v := range labels {
-		ticks = append(ticks, Tick{Value: v, Label: strconv.FormatFloat(v, fc, prec, 64)})
+		ticks = append(ticks, Tick{Value: v, Label: formatFloatTick(v, prec)})
 	}
 
 	var minorDelta float64
@@ -616,7 +619,11 @@ func tickLabelWidth(sty draw.TextStyle, ticks []Tick) vg.Length {
 // formatFloatTick returns a g-formated string representation of v
 // to the specified precision.
 func formatFloatTick(v float64, prec int) string {
-	return strconv.FormatFloat(v, 'g', prec, 64)
+	if prec < 1 {
+		prec = 1
+	}
+	s := fmt.Sprintf("%."+fmt.Sprint(prec)+"f", v)
+	return strings.TrimRight(strings.TrimRight(s, "0"), ".")
 }
 
 // TickerFunc is suitable for the Tick.Marker field of an Axis.
